@@ -23,14 +23,14 @@ module Sprockets
         paths = paths.select do |path|
 
           if File.extname(path) == ""
-            logger.info "Skipping #{path} since it has no extension"
+            Rails.logger.info "Skipping #{path} since it has no extension"
             false
           else
             true
           end
         end
 
-        logger.warn "Initializing #{@workers} workers"
+        Rails.logger.warn "Initializing #{@workers} workers"
 
         workers = []
         @workers.times do
@@ -65,7 +65,7 @@ module Sprockets
           end
         end
 
-        logger.debug "Cleaning up workers"
+        Rails.logger.debug "Cleaning up workers"
 
         workers.each do |worker|
           worker[:read].close
@@ -79,13 +79,13 @@ module Sprockets
         save
       end
 
-      logger.warn "Completed compiling assets (#{(time.real * 100).round / 100.0}s)"
+      Rails.logger.warn "Completed compiling assets (#{(time.real * 100).round / 100.0}s)"
 
       unless paths_with_errors.empty?
-        logger.warn "Asset paths with errors:"
+        Rails.logger.warn "Asset paths with errors:"
 
         paths_with_errors.each do |path, message|
-          logger.warn "\t#{path}: #{message}"
+          Rails.logger.warn "\t#{path}: #{message}"
         end
       end
     end
@@ -118,9 +118,9 @@ module Sprockets
                 target = File.join(dir, asset.digest_path)
 
                 if File.exist?(target)
-                  logger.debug "Skipping #{target}, already exists"
+                  Rails.logger.debug "Skipping #{target}, already exists"
                 else
-                  logger.debug "Writing #{target}"
+                  Rails.logger.debug "Writing #{target}"
                   asset.write_to target
                 end
 
@@ -131,7 +131,7 @@ module Sprockets
               end
             end
 
-            logger.warn "Compiled #{path} (#{(time.real * 1000).round}ms, pid #{Process.pid})"
+            Rails.logger.warn "Compiled #{path} (#{(time.real * 1000).round}ms, pid #{Process.pid})"
           end
         ensure
           child_read.close

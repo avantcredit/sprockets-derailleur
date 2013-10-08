@@ -1,8 +1,7 @@
 require "sprockets"
+require 'logging'
 
 module SpeedUp
-  require 'logging'
-
   def self.logger
     @logger ||= Logging.logger(STDOUT)
   end

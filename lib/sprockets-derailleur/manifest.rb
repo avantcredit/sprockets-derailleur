@@ -11,6 +11,10 @@ module Sprockets
   class Manifest
     attr_reader :workers
 
+    def logger
+      SpeedUp.logger
+    end
+
     alias_method :old_initialize, :initialize
     def initialize(environment, path, workers=1)
       @workers = workers

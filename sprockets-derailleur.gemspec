@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'sprockets', "~>2"
+  gem.add_dependency 'logging'
 end

@@ -1,21 +1,9 @@
 require "sprockets"
-require 'logging'
-
-module SpeedUp
-  def self.logger
-    @logger ||= Logging.logger(STDOUT)
-  end
-end
 
 module Sprockets
   class Manifest
     attr_reader :workers
 
-    def logger
-      SpeedUp.logger
-    end
-
-    alias_method :old_initialize, :initialize
     def initialize(environment, path, workers=1)
       @workers = workers
       old_initialize(environment, path)
@@ -34,14 +22,15 @@ module Sprockets
         paths = paths.select do |path|
 
           if File.extname(path) == ""
-            SpeedUp.logger.info "Skipping #{path} since it has no extension"
+            #SpeedUp.logger.info "Skipping #{path} since it has no extension"
+
             false
           else
             true
           end
         end
 
-        SpeedUp.logger.warn "Initializing #{@workers} workers"
+        #SpeedUp.logger.warn "Initializing #{@workers} workers"
 
         workers = []
         @workers.times do
@@ -76,7 +65,7 @@ module Sprockets
           end
         end
 
-        SpeedUp.logger.debug "Cleaning up workers"
+        #SpeedUp.logger.debug "Cleaning up workers"
 
         workers.each do |worker|
           worker[:read].close
@@ -90,13 +79,13 @@ module Sprockets
         save
       end
 
-      SpeedUp.logger.warn "Completed compiling assets (#{(time.real * 100).round / 100.0}s)"
+      #SpeedUp.logger.warn "Completed compiling assets (#{(time.real * 100).round / 100.0}s)"
 
       unless paths_with_errors.empty?
-        SpeedUp.logger.warn "Asset paths with errors:"
+        #SpeedUp.logger.warn "Asset paths with errors:"
 
         paths_with_errors.each do |path, message|
-          SpeedUp.logger.warn "\t#{path}: #{message}"
+          #SpeedUp.logger.warn "\t#{path}: #{message}"
         end
       end
     end
@@ -129,9 +118,9 @@ module Sprockets
                 target = File.join(dir, asset.digest_path)
 
                 if File.exist?(target)
-                  SpeedUp.logger.debug "Skipping #{target}, already exists"
+                  #SpeedUp.logger.debug "Skipping #{target}, already exists"
                 else
-                  SpeedUp.logger.debug "Writing #{target}"
+                  #SpeedUp.logger.debug "Writing #{target}"
                   asset.write_to target
                 end
 
@@ -142,7 +131,7 @@ module Sprockets
               end
             end
 
-            SpeedUp.logger.warn "Compiled #{path} (#{(time.real * 1000).round}ms, pid #{Process.pid})"
+            #SpeedUp.logger.warn "Compiled #{path} (#{(time.real * 1000).round}ms, pid #{Process.pid})"
           end
         ensure
           child_read.close

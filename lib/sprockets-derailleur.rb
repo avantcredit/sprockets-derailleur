@@ -1,16 +1,15 @@
 require "sprockets-derailleur/version"
 require "sprockets-derailleur/manifest"
 require 'logging'
-  module SpeedUp
-    def self.logger
-      @logger ||= Logging.logger(STDOUT)
-    end
+
+module SpeedUp
+  def self.logger
+    @logger ||= Logging.logger(STDOUT)
   end
+end
 
 
 module SprocketsDerailleur
-
-
   def self.number_of_processors
     if RUBY_PLATFORM =~ /linux/
       return `cat /proc/cpuinfo | grep processor | wc -l`.to_i

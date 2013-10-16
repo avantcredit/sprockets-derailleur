@@ -11,7 +11,7 @@ module SpeedUp
     return @logger if @logger
     @logger = Logging.logger(STDOUT)
     logger_level = ENV["LOGGER_LEVEL"] ? ENV["LOGGER_LEVEL"].to_sym : :warn
-    @logger.level = 
+    @logger.level = logger_level
   end
 end
 

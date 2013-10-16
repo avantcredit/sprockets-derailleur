@@ -10,7 +10,8 @@ module SpeedUp
   def self.get_logger
     return @logger if @logger
     @logger = Logging.logger(STDOUT)
-    @logger.level = ENV["LOGGER_LEVEL"].to_sym || :warn
+    logger_level = ENV["LOGGER_LEVEL"] ? ENV["LOGGER_LEVEL"].to_sym : :warn
+    @logger.level = 
   end
 end
 

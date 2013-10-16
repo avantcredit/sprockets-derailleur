@@ -4,14 +4,14 @@ require 'logging'
 
 module SpeedUp
   def self.logger
-    SpeedUp.get_logger
+    @logger ||= SpeedUp.get_logger
   end
 
   def self.get_logger
-    return @logger if @logger
-    @logger = Logging.logger(STDOUT)
+    logger = Logging.logger(STDOUT)
     logger_level = ENV["LOGGER_LEVEL"] ? ENV["LOGGER_LEVEL"].to_sym : :warn
-    @logger.level = logger_level
+    logger.level = logger_level
+    logger
   end
 end
 

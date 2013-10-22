@@ -21,7 +21,7 @@ module SprocketsDerailleur
     if RUBY_PLATFORM =~ /linux/
       return `cat /proc/cpuinfo | grep processor | wc -l`.to_i
     elsif RUBY_PLATFORM =~ /darwin/
-      return `sysctl -n hw.physicalcpu`.to_i
+      return `sysctl -n hw.activecpu`.to_i
     elsif RUBY_PLATFORM =~ /win32/
       # this works for windows 2000 or greater
       require 'win32ole'

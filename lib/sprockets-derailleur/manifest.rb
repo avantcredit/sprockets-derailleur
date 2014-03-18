@@ -115,7 +115,7 @@ module Sprockets
             path = paths[Marshal.load(child_read)]
 
             time = Benchmark.measure do
-              data = {'assets' => {}, 'files' => {}, 'errors' => {}}
+              data = { 'assets' => {}, 'files' => {}, 'errors' => {} }
 
               if asset = find_asset(path)
 
@@ -134,6 +134,7 @@ module Sprockets
                 else
                   logger.debug "Writing #{target}"
                   asset.write_to target
+                  asset.write_to("#{target}.gz") if target.to_s =~ /\.(css|js)$/
                 end
 
                 Marshal.dump(data, child_write)
